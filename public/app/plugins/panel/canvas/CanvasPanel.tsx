@@ -51,6 +51,12 @@ export class CanvasPanel extends Component<Props, State> {
   needsReload = false;
   isEditing = locationService.getSearchObject().editPanel !== undefined;
 
+  //added
+  declare backgroundTrueWidth: number;
+  declare backgroundTrueHeight: number;
+
+
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -93,11 +99,122 @@ export class CanvasPanel extends Component<Props, State> {
         }
       })
     );
+
+  }
+  //added
+  handleResize = () => {
+    //console.log(`Okno má novou šířku ${window.innerWidth} a výšku ${window.innerHeight}`);
+    console.log(this);
+    this.calculateBackgroundSize();
+      let newWidth = this?.backgroundTrueWidth;
+      let newHeight = this?.backgroundTrueHeight;
+      let originalWidth = this?.props?.options?.backgroundWidth;
+      let originalHeight = this?.props?.options?.backgroundHeight;
+      let elements = this?.props?.options?.root?.elements;
+
+      //calculate now positions of elements
+      elements.forEach(element => {
+        if (element.placement && typeof element.placement.xRelativePos === 'number' && typeof element.placement.yRelativePos === 'number') {
+            let newPosition = this.calculateNewPosition(element.placement.xRelativePos, element.placement.yRelativePos, originalWidth, originalHeight, newWidth, newHeight);
+            element.placement.left = newPosition.xNew;
+            element.placement.top = newPosition.yNew;
+        }
+      });
+
+      //calculate now scale of elements
+      elements.forEach(element => {
+        if (element.placement && typeof element.placement.xRelativeScale === 'number' && typeof element.placement.yRelativeScale === 'number') {
+            let newPosition = this.calculateNewScale(element.placement.xRelativeScale, element.placement.yRelativeScale, originalWidth, originalHeight, newWidth, newHeight);
+            element.placement.width = newPosition.xNew;
+            element.placement.height = newPosition.yNew;
+        }
+      });
+      this.scene.updateData(this?.props?.data);
+      this.scene.updateSize(this?.props?.width, this?.props?.height);
   }
 
+  //added
+  calculateBackgroundSize(){
+    let panelRatio = this.props.width / this.props.height;
+    let backgroundRatio = this.props.options.backgroundWidth / this.props.options.backgroundHeight;
+    if(backgroundRatio>=0){
+      if(panelRatio>backgroundRatio){
+        this.backgroundTrueHeight = this.props.height;
+        this.backgroundTrueWidth = this.props.height * backgroundRatio;
+
+      }else{
+        this.backgroundTrueWidth = this.props.width;
+        this.backgroundTrueHeight = this.props.width / backgroundRatio;
+      }
+    }else{
+      if(panelRatio>backgroundRatio){
+        this.backgroundTrueHeight = this.props.height;
+        this.backgroundTrueWidth = this.props.height / backgroundRatio;
+
+      }else{
+        this.backgroundTrueWidth = this.props.width;
+        this.backgroundTrueHeight = this.props.width * backgroundRatio;
+      }
+    }
+    return;
+  };
+
+  //added
+  calculateRelativePosition(xDisplayed: number, yDisplayed: number): { xOriginal: number, yOriginal: number }{
+    let widthRatioPos = this.props.options.backgroundWidth / this.backgroundTrueWidth;
+    let heightRatioPos = this.props.options.backgroundHeight / this.backgroundTrueHeight;
+    let xOriginal = xDisplayed * widthRatioPos;
+    let yOriginal = yDisplayed * heightRatioPos;
+    return {xOriginal, yOriginal};
+  }
+
+  //added
+  calculateRelativeScale(xDisplayed: number, yDisplayed: number): { xOriginal: number, yOriginal: number }{
+    let widthRatioScale = this.props.options.backgroundWidth / this.backgroundTrueWidth;
+    let heightRatioScale = this.props.options.backgroundHeight / this.backgroundTrueHeight;
+    let xOriginal = xDisplayed * widthRatioScale;
+    let yOriginal = yDisplayed * heightRatioScale;
+    return {xOriginal, yOriginal};
+  }
+
+  //added
+  calculateNewPosition(xRelativePos: number, yRelativePos: number, originalWidth: number, originalHeight: number, newWidth: number, newHeight: number): { xNew: number, yNew: number } {
+    let xNew = (newWidth / originalWidth) * xRelativePos;
+    let yNew = (newHeight / originalHeight) * yRelativePos;
+    return { xNew, yNew };
+  }
+
+  //added
+  calculateNewScale(xRelativeScale: number, yRelativeScale: number, originalWidth: number, originalHeight: number, newWidth: number, newHeight: number): { xNew: number, yNew: number } {
+    let xNew = (newWidth / originalWidth) * xRelativeScale;
+    let yNew = (newHeight / originalHeight) * yRelativeScale;
+    return { xNew, yNew };
+  }
+
+  // Function to handle the event
+  handleEvent = (event: Event) => {
+    console.log("canvas_clear", this);
+
+    // Projděte mapu `this.scene.byName`
+    this.scene.byName.forEach((value: any, key: any) => {
+
+      value.reset_highlights();
+        
+    });
+    //console.log(this);
+    //console.log("this.context.selected",this.context);
+    //this.context.selected.reset_highlights();
+    //this.scene.updateData(this.props.data);
+    
+  };
+
   componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
     activeCanvasPanel = this;
     activePanelSubject.next({ panel: this });
+
+    // Add the event listener when the component mounts
+    document.addEventListener('canvas_clear', this.handleEvent);
 
     this.panelContext = this.context;
     if (this.panelContext.onInstanceStateChange) {
@@ -164,15 +281,50 @@ export class CanvasPanel extends Component<Props, State> {
       );
     }
 
+
+    //added
+    if(this?.props?.options?.isResponsive === true){
+      this.calculateBackgroundSize();
+      let newWidth = this?.backgroundTrueWidth;
+      let newHeight = this?.backgroundTrueHeight;
+      let originalWidth = this?.props?.options?.backgroundWidth;
+      let originalHeight = this?.props?.options?.backgroundHeight;
+      let elements = this?.props?.options?.root?.elements;
+
+      //calculate now positions of elements
+      elements.forEach(element => {
+        if (element.placement && typeof element.placement.xRelativePos === 'number' && typeof element.placement.yRelativePos === 'number') {
+            let newPosition = this.calculateNewPosition(element.placement.xRelativePos, element.placement.yRelativePos, originalWidth, originalHeight, newWidth, newHeight);
+            element.placement.left = newPosition.xNew;
+            element.placement.top = newPosition.yNew;
+        }
+      });
+
+      //calculate now scale of elements
+      elements.forEach(element => {
+        if (element.placement && typeof element.placement.xRelativeScale === 'number' && typeof element.placement.yRelativeScale === 'number') {
+            let newPosition = this.calculateNewScale(element.placement.xRelativeScale, element.placement.yRelativeScale, originalWidth, originalHeight, newWidth, newHeight);
+            element.placement.width = newPosition.xNew;
+            element.placement.height = newPosition.yNew;
+        }
+      });
+      this.scene.updateData(this?.props?.data);
+      this.scene.updateSize(this?.props?.width, this?.props?.height);
+    }
     canvasInstances.push(this);
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
     this.scene.subscription.unsubscribe();
     this.subs.unsubscribe();
     isInlineEditOpen = false;
     isSetBackgroundOpen = false;
     canvasInstances = canvasInstances.filter((ci) => ci.props.id !== activeCanvasPanel?.props.id);
+
+    // Remove the event listener when the component unmounts
+    document.removeEventListener('canvas_clear', this.handleEvent);
+
   }
 
   // NOTE, all changes to the scene flow through this function
@@ -188,11 +340,40 @@ export class CanvasPanel extends Component<Props, State> {
     activePanelSubject.next({ panel: this });
   };
 
-  shouldComponentUpdate(nextProps: Props, nextState: State) {
+  shouldComponentUpdate(nextProps: Props, nextState: State ) {
     const { width, height, data, options } = this.props;
     let changed = false;
 
     if (width !== nextProps.width || height !== nextProps.height) {
+      //added
+      if(this?.props?.options?.isResponsive === true){
+        this.calculateBackgroundSize();
+        //console.log("panel changed!");
+        let newWidth = this?.backgroundTrueWidth;
+        let newHeight = this?.backgroundTrueHeight;
+        let originalWidth = this?.props?.options?.backgroundWidth;
+        let originalHeight = this?.props?.options?.backgroundHeight;
+        let elements = nextProps?.options?.root?.elements;
+
+        //calculate now positions of elements
+        elements.forEach(element => {
+          if (element.placement && typeof element.placement.xRelativePos === 'number' && typeof element.placement.yRelativePos === 'number') {
+              let newPosition = this.calculateNewPosition(element.placement.xRelativePos, element.placement.yRelativePos, originalWidth, originalHeight, newWidth, newHeight);
+              element.placement.left = newPosition.xNew;
+              element.placement.top = newPosition.yNew;
+          }
+        });
+
+        //calculate now scale of elements
+        elements.forEach(element => {
+          if (element.placement && typeof element.placement.xRelativeScale === 'number' && typeof element.placement.yRelativeScale === 'number') {
+              let newPosition = this.calculateNewScale(element.placement.xRelativeScale, element.placement.yRelativeScale, originalWidth, originalHeight, newWidth, newHeight);
+              element.placement.width = newPosition.xNew;
+              element.placement.height = newPosition.yNew;
+          }
+        });
+      }
+      this.scene.updateData(nextProps.data);
       this.scene.updateSize(nextProps.width, nextProps.height);
       changed = true;
     }
@@ -205,6 +386,30 @@ export class CanvasPanel extends Component<Props, State> {
     if (options !== nextProps.options && !this.scene.ignoreDataUpdate) {
       this.scene.updateData(nextProps.data);
       changed = true;
+      
+      //added
+      if(this?.props?.options?.isResponsive === true){
+        this.calculateBackgroundSize();
+        let elements = nextProps?.options?.root?.elements;
+        if (elements && elements.length) {
+          elements.forEach(element => {
+              //calculating relative position of elements
+              if (typeof element?.placement?.left === 'number' && typeof element?.placement?.top === 'number') {
+                  let relativePos = this.calculateRelativePosition(element.placement.left, element.placement.top);
+                  element.placement.xRelativePos = relativePos.xOriginal;
+                  element.placement.yRelativePos = relativePos.yOriginal;
+              }
+              //calculating relative scale of elements
+              if (typeof element?.placement?.width === 'number' && typeof element?.placement?.height === 'number') {
+                  let relativeScale = this.calculateRelativeScale(element.placement.width, element.placement.height);
+                  element.placement.xRelativeScale = relativeScale.xOriginal;
+                  element.placement.yRelativeScale = relativeScale.yOriginal;
+              }
+          });
+          // Here elements array has updated positions and scale.
+        }
+      }
+
     }
 
     if (this.state.refresh !== nextState.refresh) {
@@ -240,10 +445,13 @@ export class CanvasPanel extends Component<Props, State> {
       changed = true;
     }
 
+    //console.log("props", this.props);
+    //console.log("state", this.state);
     return changed;
   }
 
   openInlineEdit = () => {
+    console.log("closeInlineEdit");
     if (isInlineEditOpen) {
       this.forceUpdate();
       this.setActivePanel();
@@ -256,6 +464,7 @@ export class CanvasPanel extends Component<Props, State> {
   };
 
   openSetBackground = (anchorPoint: AnchorPoint) => {
+    //console.log("closeInlineEdit");
     if (isSetBackgroundOpen) {
       this.forceUpdate();
       this.setActivePanel();
@@ -270,36 +479,44 @@ export class CanvasPanel extends Component<Props, State> {
   };
 
   tooltipCallback = (tooltip: CanvasTooltipPayload | undefined) => {
+    //console.log("closeInlineEdit");
     this.scene.tooltip = tooltip;
     this.forceUpdate();
   };
 
   moveableActionCallback = (updated: boolean) => {
+    //console.log("closeInlineEdit");
     this.setState({ moveableAction: updated });
     this.forceUpdate();
   };
 
   closeInlineEdit = () => {
+    //console.log("closeInlineEdit");
     this.setState({ openInlineEdit: false });
     isInlineEditOpen = false;
   };
 
   closeSetBackground = () => {
+    //console.log("closeSetBackground");
     this.setState({ openSetBackground: false });
     isSetBackgroundOpen = false;
   };
 
   setActivePanel = () => {
+    //console.log("closeInlineEdit");
     activeCanvasPanel = this;
     activePanelSubject.next({ panel: this });
   };
 
   renderInlineEdit = () => {
+    //console.log("closeInlineEdit");
     return <InlineEdit onClose={() => this.closeInlineEdit()} id={this.props.id} scene={this.scene} />;
   };
 
   renderSetBackground = () => {
+    //console.log("closeInlineEdit");
     return (
+      
       <SetBackground
         onClose={() => this.closeSetBackground()}
         scene={this.scene}

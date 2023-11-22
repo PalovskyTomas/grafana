@@ -22,6 +22,30 @@ export const addStandardCanvasEditorOptions = (builder: PanelOptionsEditorBuilde
     description: 'Enable selection of experimental element types',
     defaultValue: true,
   });
+
+  //added
+  builder.addBooleanSwitch({
+    path: 'isResponsive',
+    name: 'Responsive elements',
+    description: 'Set true if you want to elements have responsive position and scale based on backgroung',
+    defaultValue: false,
+  });
+
+  //added
+  builder.addNumberInput({
+    path: 'backgroundWidth',
+    name: 'Background width',
+    description: 'Width of original backgronud picture in pixels',
+    defaultValue: 800,
+  });
+
+  //added
+  builder.addNumberInput({
+    path: 'backgroundHeight',
+    name: 'Background height',
+    description: 'Height of original backgronud picture in pixels',
+    defaultValue: 600,
+  });
 };
 
 export const plugin = new PanelPlugin<Options>(CanvasPanel)

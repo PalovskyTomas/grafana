@@ -20,6 +20,11 @@ import { Scene } from './scene';
 
 let counter = 0;
 
+interface Device{
+  name: string;
+  address: number;
+}
+
 export class ElementState implements LayerElement {
   // UID necessary for moveable to work (for now)
   readonly UID = counter++;
@@ -61,6 +66,8 @@ export class ElementState implements LayerElement {
     scene?.byName.set(options.name, this);
   }
 
+  
+
   private getScene(): Scene | undefined {
     let trav = this.parent;
     while (trav) {
@@ -86,7 +93,7 @@ export class ElementState implements LayerElement {
 
     const { constraint } = this.options;
     const { vertical, horizontal } = constraint ?? {};
-    const placement: Placement = this.options.placement ?? {};
+    const placement = this.options.placement ?? ({} as Placement);
 
     const editingEnabled = this.getScene()?.isEditingEnabled;
 
@@ -229,7 +236,7 @@ export class ElementState implements LayerElement {
         ? Math.round(parentContainer.right - parentBorderWidth - elementContainer.right)
         : 0;
 
-    const placement: Placement = {};
+    const placement = {} as Placement;
 
     const width = elementContainer?.width ?? 100;
     const height = elementContainer?.height ?? 100;
@@ -457,8 +464,15 @@ export class ElementState implements LayerElement {
     }
   };
 
+  componentDidMount() {
+  }
+
+
+
+
   handleMouseEnter = (event: React.MouseEvent, isSelected: boolean | undefined) => {
     const scene = this.getScene();
+    //console.log("handleMouseEnter");
     if (!scene?.isEditingEnabled) {
       this.handleTooltip(event);
     } else if (!isSelected) {
@@ -468,6 +482,7 @@ export class ElementState implements LayerElement {
 
   handleTooltip = (event: React.MouseEvent) => {
     const scene = this.getScene();
+    //console.log("handleTooltip");
     if (scene?.tooltipCallback) {
       const rect = this.div?.getBoundingClientRect();
       scene.tooltipCallback({
@@ -480,33 +495,77 @@ export class ElementState implements LayerElement {
 
   handleMouseLeave = (event: React.MouseEvent) => {
     const scene = this.getScene();
+    //console.log("handleMouseLeave");
     if (scene?.tooltipCallback && !scene?.tooltip?.isOpen) {
       scene.tooltipCallback(undefined);
     }
   };
 
-  onElementClick = (event: React.MouseEvent) => {
-    this.onTooltipCallback();
-  };
-
-  onElementKeyDown = (event: React.KeyboardEvent) => {
-    if (
-      event.key === 'Enter' &&
-      (event.currentTarget instanceof HTMLElement || event.currentTarget instanceof SVGElement)
-    ) {
-      const scene = this.getScene();
-      scene?.select({ targets: [event.currentTarget] });
+  reset_highlights = () => {
+    localStorage.removeItem('highlights');
+    if(this.item?.name === "Vemat"){
+      //console.log("reset_highlights");
+      this.data.highlighted = false;
     }
+    let button: HTMLElement | null = document.querySelector("[data-testid='data-testid RefreshPicker run button']");
+    if (button) {
+      button.click();
+    }
+    //this.componentDidMount();
   };
 
-  onTooltipCallback = () => {
+  onElementClick = (event: React.MouseEvent) => {
+    console.log("onElementClick", this);
+
+    const highlights = JSON.parse(localStorage.getItem('highlights') || '{}');
+    const id = this.data?.address; // Unikátní ID elementu
+    //highlights[id] = this.data?.highlighted;
+    console.log("highlights[id]", highlights[id])
+
+    if(this.item?.name === "Vemat"){
+      const _device: Device = {
+        address: this.data?.address,
+        name: this.data?.name
+      }
+      console.log("id:", id);
+      if (highlights[id] === undefined){
+        highlights[id] = true;
+      }else{
+        highlights[id] = !highlights[id];
+      }
+
+      
+
+
+      //eventy
+      if(highlights[id]){
+        const event = new  CustomEvent('panel1ToPanel2Event', { detail: { key: 'addDevice',dev: _device} });
+        document.dispatchEvent(event);
+      }else{
+        const event = new  CustomEvent('panel1ToPanel2Event', { detail: { key: 'removeDevice',dev: _device} });
+        document.dispatchEvent(event);
+      }
+
+      // Aktualizace localStorage
+      
+      
+      localStorage.setItem('highlights', JSON.stringify(highlights));
+
+    }
+    
     const scene = this.getScene();
+    
+   
+
     if (scene?.tooltipCallback && scene.tooltip?.anchorPoint) {
       scene.tooltipCallback({
         anchorPoint: { x: scene.tooltip.anchorPoint.x, y: scene.tooltip.anchorPoint.y },
         element: this,
         isOpen: true,
       });
+    }
+    if(scene){
+      //scene.updateData(this.data);
     }
   };
 
@@ -517,15 +576,14 @@ export class ElementState implements LayerElement {
     const isSelected = div && scene && scene.selecto && scene.selecto.getSelectedTargets().includes(div);
 
     return (
+      // TODO: fix keyboard a11y
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
       <div
         key={this.UID}
         ref={this.initElement}
         onMouseEnter={(e: React.MouseEvent) => this.handleMouseEnter(e, isSelected)}
         onMouseLeave={!scene?.isEditingEnabled ? this.handleMouseLeave : undefined}
         onClick={!scene?.isEditingEnabled ? this.onElementClick : undefined}
-        onKeyDown={!scene?.isEditingEnabled ? this.onElementKeyDown : undefined}
-        role="button"
-        tabIndex={0}
       >
         <item.display
           key={`${this.UID}/${this.revId}`}

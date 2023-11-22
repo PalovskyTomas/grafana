@@ -5,13 +5,16 @@ import { buttonItem } from './elements/button';
 import { droneFrontItem } from './elements/droneFront';
 import { droneSideItem } from './elements/droneSide';
 import { droneTopItem } from './elements/droneTop';
-import { ellipseItem } from './elements/ellipse';
 import { iconItem } from './elements/icon';
 import { metricValueItem } from './elements/metricValue';
+import { pizzaOvenItem } from './elements/pizzaOven';
 import { rectangleItem } from './elements/rectangle';
 import { serverItem } from './elements/server/server';
 import { textItem } from './elements/text';
+import { vematItem } from './elements/vemat';
 import { windTurbineItem } from './elements/windTurbine';
+
+
 
 export const DEFAULT_CANVAS_ELEMENT_CONFIG: CanvasElementOptions = {
   ...metricValueItem.getNewOptions(),
@@ -23,13 +26,12 @@ export const DEFAULT_CANVAS_ELEMENT_CONFIG: CanvasElementOptions = {
 export const defaultElementItems = [
   metricValueItem, // default for now
   textItem,
-  ellipseItem,
   rectangleItem,
   iconItem,
   serverItem,
 ];
 
-export const advancedElementItems = [buttonItem, windTurbineItem, droneTopItem, droneFrontItem, droneSideItem];
+export const advancedElementItems = [buttonItem, windTurbineItem, droneTopItem, droneFrontItem, droneSideItem, pizzaOvenItem, vematItem];
 
 export const canvasElementRegistry = new Registry<CanvasElementItem>(() => [
   ...defaultElementItems,

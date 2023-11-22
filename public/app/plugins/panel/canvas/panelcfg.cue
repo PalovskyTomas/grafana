@@ -22,7 +22,6 @@ composableKinds: PanelCfg: {
 	maturity: "experimental"
 
 	lineage: {
-
 		schemas: [{
 			version: [0, 0]
 			schema: {
@@ -39,9 +38,12 @@ composableKinds: PanelCfg: {
 					left?:   float64
 					right?:  float64
 					bottom?: float64
-
 					width?:  float64
 					height?: float64
+                    xRelativePos?:    float64
+                    yRelativePos?:    float64
+                    xRelativeScale?:  float64
+                    yRelativeScale?:  float64
 				} @cuetsy(kind="interface")
 
 				BackgroundImageSize: "original" | "contain" | "cover" | "fill" | "tile" @cuetsy(kind="enum", memberNames="Original|Contain|Cover|Fill|Tile")
@@ -51,18 +53,23 @@ composableKinds: PanelCfg: {
 					size?:  BackgroundImageSize
 				} @cuetsy(kind="interface")
 
+                BackgroundTrueSizeInPixels: {
+                    width?:  float64
+                    height?: float64
+                } @cuetsy(kind="interface")
+
 				LineConfig: {
 					color?: ui.ColorDimensionConfig
 					width?: float64
 				} @cuetsy(kind="interface")
 
-				HttpRequestMethod: "GET" | "POST" @cuetsy(kind="enum", memberNames="GET|POST")
-
 				ConnectionCoordinates: {
 					x: float64
 					y: float64
 				} @cuetsy(kind="interface")
+
 				ConnectionPath: "straight" @cuetsy(kind="enum", memberNames="Straight")
+
 				CanvasConnection: {
 					source:      ConnectionCoordinates
 					target:      ConnectionCoordinates
@@ -71,6 +78,7 @@ composableKinds: PanelCfg: {
 					color?:      ui.ColorDimensionConfig
 					size?:       ui.ScaleDimensionConfig
 				} @cuetsy(kind="interface")
+
 				CanvasElementOptions: {
 					name: string
 					type: string
@@ -98,6 +106,10 @@ composableKinds: PanelCfg: {
 						// The list of canvas elements attached to the root element
 						elements: [...CanvasElementOptions]
 					} @cuetsy(kind="interface")
+                    // Added properties for responsiveness
+                    backgroundHeight: float64
+                    backgroundWidth:  float64
+                    isResponsive:     bool | *false
 				} @cuetsy(kind="interface")
 			}
 		}]

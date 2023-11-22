@@ -163,6 +163,8 @@ export class Scene {
   updateData(data: PanelData) {
     this.data = data;
     this.root.updateData(this.context);
+
+    console.log("updateData", this.context);
   }
 
   updateSize(width: number, height: number) {
@@ -171,7 +173,7 @@ export class Scene {
     this.style = { width, height };
 
     if (this.selecto?.getSelectedTargets().length) {
-      this.clearCurrentSelection();
+      //this.clearCurrentSelection();
     }
   }
 
