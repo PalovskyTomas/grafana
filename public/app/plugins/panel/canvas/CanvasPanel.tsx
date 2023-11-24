@@ -344,7 +344,46 @@ export class CanvasPanel extends Component<Props, State> {
   shouldComponentUpdate(nextProps: Props, nextState: State ) {
     const { width, height, data, options } = this.props;
     let changed = false;
+    
+    
+    //added
+    if(this?.props?.options?.isResponsive === true){
+      this.calculateBackgroundSize();
+      let newWidth = this?.backgroundTrueWidth;
+      let newHeight = this?.backgroundTrueHeight;
+      let originalWidth = this?.props?.options?.backgroundWidth;
+      let originalHeight = this?.props?.options?.backgroundHeight;
+      let elements = this?.props?.options?.root?.elements;
 
+      //calculate now positions of elements
+      elements.forEach(element => {
+        if (element.placement && typeof element.placement.xRelativePos === 'number' && typeof element.placement.yRelativePos === 'number') {
+            let newPosition = this.calculateNewPosition(element.placement.xRelativePos, element.placement.yRelativePos, originalWidth, originalHeight, newWidth, newHeight);
+            element.placement.left = newPosition.xNew;
+            element.placement.top = newPosition.yNew;
+        }
+      });
+
+      //calculate now scale of elements
+      elements.forEach(element => {
+        if (element.placement && typeof element.placement.xRelativeScale === 'number' && typeof element.placement.yRelativeScale === 'number') {
+            let newPosition = this.calculateNewScale(element.placement.xRelativeScale, element.placement.yRelativeScale, originalWidth, originalHeight, newWidth, newHeight);
+            element.placement.width = newPosition.xNew;
+            element.placement.height = newPosition.yNew;
+        }
+      });
+      this.scene.updateData(this?.props?.data);
+      this.scene.updateSize(this?.props?.width, this?.props?.height);
+    }
+    canvasInstances.push(this);
+
+
+
+
+
+
+
+    //console.log("shouldComponentUpdate");
     if (width !== nextProps.width || height !== nextProps.height) {
       //added
       if(this?.props?.options?.isResponsive === true){

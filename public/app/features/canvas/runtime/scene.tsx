@@ -164,7 +164,7 @@ export class Scene {
     this.data = data;
     this.root.updateData(this.context);
 
-    console.log("updateData", this.context);
+    //console.log("updateData", this.context);
   }
 
   updateSize(width: number, height: number) {
