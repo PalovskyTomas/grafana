@@ -209,6 +209,7 @@ export class CanvasPanel extends Component<Props, State> {
   };
 
   componentDidMount() {
+    localStorage.removeItem('highlights');
     window.addEventListener('resize', this.handleResize);
     activeCanvasPanel = this;
     activePanelSubject.next({ panel: this });
