@@ -74,16 +74,16 @@ const VematDisplay = ({ data }: CanvasElementProps<VematConfig, VematData>) => {
     
 //<rect width="200" height="102" fill="red" stroke="red"/> 
     return (
-        <svg viewBox="-10 -10 220 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-            <path id="BACKGRND" d="M0 25C0 11.1929 11.1929 0 25 0H175C188.807 0 200 11.1929 200 25V75C200 88.8071 188.807 100 175 100H25C11.1929 100 0 88.8071 0 75V25Z" fill={BACKGRND} stroke="red" strokeWidth={highlighted}/>
-            <path id="BACKGRND" d="M0 25C0 11.1929 11.1929 0 25 0H175C188.807 0 200 11.1929 200 25V75C200 88.8071 188.807 100 175 100H25C11.1929 100 0 88.8071 0 75V25Z" fill={BACKGRND}/>
-            <path id="MACHINE" d="M0 70C0 58.9543 8.95431 50 20 50H180C191.046 50 200 58.9543 200 70V80C200 91.0457 191.046 100 180 100H20C8.95431 100 0 91.0457 0 80V70Z" fill={MACHINE} stroke="black" strokeWidth="1"/>
-            <circle id="Z4" cx="177" cy="75" r="20" fill={Z4} stroke="black" strokeWidth="1"/>
-            <circle id="Z3" cx="126" cy="75" r="20" fill={Z3} stroke="black" strokeWidth="1"/>
-            <circle id="Z2" cx="75" cy="75" r="20" fill={Z2} stroke="black" strokeWidth="1"/>
-            <circle id="Z1" cx="24" cy="75" r="20" fill={Z1} stroke="black" strokeWidth="1"/>
-            <text id="ID" x="150" y="35" fontSize="16" fill="black">@{data?.address}</text>
-            <text id="NAME" x="15" y="35" fontSize="16" fill="black">{data?.name}</text>
+        <svg viewBox="-10 -10 240 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <path id="BACKGRND" d="M0 25C0 11.1929 11.1929 0 25 0H195C208.807 0 220 11.1929 220 25V75C220 88.8071 208.807 100 195 100H25C11.1929 100 0 88.8071 0 75V25Z" fill={BACKGRND} stroke="red" strokeWidth={highlighted}/>
+            <path id="BACKGRND" d="M0 25C0 11.1929 11.1929 0 25 0H195C208.807 0 220 11.1929 220 25V75C220 88.8071 208.807 100 195 100H25C11.1929 100 0 88.8071 0 75V25Z" fill={BACKGRND}/>
+            <path id="MACHINE" d="M0 70C0 58.9543 8.95431 50 20 50H125C136.046 50 145 58.9543 145 70V80C145 91.0457 136.046 100 125 100H20C8.95431 100 0 91.0457 0 80V70Z" fill={MACHINE} stroke="black" strokeWidth="1"/>
+            <circle id="Z4" cx="122" cy="75" r="15" fill={Z4} stroke="black" strokeWidth="1"/>
+            <circle id="Z3" cx="88" cy="75" r="15" fill={Z3} stroke="black" strokeWidth="1"/>
+            <circle id="Z2" cx="54" cy="75" r="15" fill={Z2} stroke="black" strokeWidth="1"/>
+            <circle id="Z1" cx="20" cy="75" r="15" fill={Z1} stroke="black" strokeWidth="1"/>
+            <text id="ID" x="150" y="82" fontSize="22" fill="black">@{data?.address}</text>
+            <text id="NAME" x="10" y="35" fontSize="22" fill="black">{data?.name}</text>
         </svg>
     );
 };

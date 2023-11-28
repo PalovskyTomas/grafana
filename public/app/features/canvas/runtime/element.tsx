@@ -502,7 +502,7 @@ export class ElementState implements LayerElement {
   };
 
   reset_highlights = () => {
-    localStorage.removeItem('highlights');
+    
     if(this.item?.name === "Vemat"){
       //console.log("reset_highlights");
       this.data.highlighted = false;

@@ -194,11 +194,52 @@ export class CanvasPanel extends Component<Props, State> {
   // Function to handle the event
   handleEvent = (event: Event) => {
     console.log("canvas_clear", this);
-
+    localStorage.removeItem('highlights');
     // Projděte mapu `this.scene.byName`
     this.scene.byName.forEach((value: any, key: any) => {
 
       value.reset_highlights();
+        
+    });
+    //console.log(this);
+    //console.log("this.context.selected",this.context);
+    //this.context.selected.reset_highlights();
+    //this.scene.updateData(this.props.data);
+    
+  };
+
+  handleDeleteEvent = (event: Event) => {
+    //console.log("handleDeleteEvent");
+    //console.log("event", event);
+    let adrresEvent = event.detail.address;
+    //console.log("adrresEvent", adrresEvent);
+    //console.log("this.scene.byName", this.scene.byName);
+
+    
+
+    // Projděte mapu `this.scene.byName`
+    this.scene.byName.forEach((value: any, key: any) => {
+      // where element = event -> reset_highlights();
+      //value.reset_highlights();
+      let canvasData = value.data.address;
+      //console.log("canvasData", canvasData);
+      if(canvasData === adrresEvent){
+        // Načtení 'highlights' z localStorage
+        var highlights = localStorage.getItem('highlights');
+
+        // Kontrola, zda 'highlights' existuje
+        if (highlights) {
+            // Parsování 'highlights' do objektu
+            highlights = JSON.parse(highlights);
+
+            // Odstranění klíče '27'
+            delete highlights[adrresEvent];
+
+            // Uložení upraveného objektu 'highlights' zpět do localStorage
+            localStorage.setItem('highlights', JSON.stringify(highlights));
+        }
+        value.reset_highlights();
+      }
         
     });
     //console.log(this);
@@ -216,6 +257,9 @@ export class CanvasPanel extends Component<Props, State> {
 
     // Add the event listener when the component mounts
     document.addEventListener('canvas_clear', this.handleEvent);
+
+    // Add the event listener when the component mounts
+    document.addEventListener('delete_specific_element', this.handleDeleteEvent);
 
     this.panelContext = this.context;
     if (this.panelContext.onInstanceStateChange) {
@@ -325,6 +369,7 @@ export class CanvasPanel extends Component<Props, State> {
 
     // Remove the event listener when the component unmounts
     document.removeEventListener('canvas_clear', this.handleEvent);
+    document.removeEventListener('delete_specific_element', this.handleDeleteEvent);
 
   }
 
