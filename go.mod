@@ -124,7 +124,7 @@ require (
 	gopkg.in/mail.v2 v2.3.1 // @grafana/backend-platform
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // @grafana/alerting-squad-backend
-	xorm.io/builder v0.3.6 // @grafana/backend-platform
+	xorm.io/builder v0.3.6 // indirect; @grafana/backend-platform
 	xorm.io/core v0.7.3 // @grafana/backend-platform
 	xorm.io/xorm v0.8.2 // @grafana/alerting-squad-backend
 )
@@ -156,12 +156,12 @@ require (
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/go-openapi/analysis v0.21.4 // indirect
 	github.com/go-openapi/errors v0.20.4 // indirect
-	github.com/go-openapi/jsonpointer v0.19.6 // indirect
+	github.com/go-openapi/jsonpointer v0.20.2 // indirect
 	github.com/go-openapi/jsonreference v0.20.2 // indirect
 	github.com/go-openapi/loads v0.21.2 // @grafana/alerting-squad-backend
 	github.com/go-openapi/runtime v0.26.0 // @grafana/alerting-squad-backend
 	github.com/go-openapi/spec v0.20.9 // indirect
-	github.com/go-openapi/swag v0.22.4 // indirect
+	github.com/go-openapi/swag v0.22.8 // indirect
 	github.com/go-openapi/validate v0.22.1 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // @grafana/backend-platform
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
@@ -171,12 +171,12 @@ require (
 	github.com/google/btree v1.1.2 // indirect
 	github.com/google/flatbuffers v23.1.21+incompatible // indirect
 	github.com/googleapis/gax-go/v2 v2.11.0 // @grafana/backend-platform
-	github.com/gorilla/mux v1.8.0 // @grafana/backend-platform
+	github.com/gorilla/mux v1.8.1 // @grafana/backend-platform
 	github.com/grafana/grafana-google-sdk-go v0.1.0 // @grafana/partner-datasources
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.1-0.20191002090509-6af20e3a5340 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-msgpack v0.5.5 // indirect
-	github.com/hashicorp/go-multierror v1.1.1 // @grafana/alerting-squad
+	github.com/hashicorp/go-multierror v1.1.1 // indirect; @grafana/alerting-squad
 	github.com/hashicorp/go-sockaddr v1.0.2 // indirect
 	github.com/hashicorp/golang-lru v0.6.0 // indirect
 	github.com/hashicorp/yamux v0.1.1 // indirect
@@ -236,7 +236,7 @@ require (
 	github.com/bufbuild/connect-go v1.10.0 // @grafana/observability-traces-and-profiling
 	github.com/dlmiddlecote/sqlstats v1.0.2 // @grafana/backend-platform
 	github.com/drone/drone-cli v1.6.1 // @grafana/grafana-delivery
-	github.com/getkin/kin-openapi v0.120.0 // @grafana/grafana-operator-experience-squad
+	github.com/getkin/kin-openapi v0.123.0 // @grafana/grafana-operator-experience-squad
 	github.com/golang-migrate/migrate/v4 v4.7.0 // @grafana/backend-platform
 	github.com/google/go-github/v45 v45.2.0 // @grafana/grafana-delivery
 	github.com/grafana/codejen v0.0.3 // @grafana/dataviz-squad
@@ -378,7 +378,7 @@ require (
 	github.com/redis/rueidis v1.0.16 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rivo/uniseg v0.3.4 // indirect
-	github.com/rogpeppe/go-internal v1.11.0 // indirect
+	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
