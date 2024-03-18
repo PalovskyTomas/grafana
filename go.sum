@@ -1762,8 +1762,8 @@ github.com/gorilla/mux v1.7.0/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2z
 github.com/gorilla/mux v1.7.1/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
 github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
 github.com/gorilla/mux v1.7.4/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
-github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
-github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/gorilla/mux v1.8.1 h1:TuBL49tXwgrFYWhqrNgrUNEY92u81SPhu7sTdzQEiWY=
+github.com/gorilla/mux v1.8.1/go.mod h1:AKf9I4AEqPTmMytcMc0KkNouC66V3BtZ4qD5fmWSiMQ=
 github.com/gorilla/pat v0.0.0-20180118222023-199c85a7f6d1/go.mod h1:YeAe0gNeiNT5hoiZRI4yiOky6jVdNvfO2N6Kav/HmxY=
 github.com/gorilla/securecookie v1.1.1/go.mod h1:ra0sb63/xPlUeL+yeDciTfxMRAA+MP+HVt/4epWDjd4=
 github.com/gorilla/sessions v1.1.2/go.mod h1:8KCfur6+4Mqcc6S0FEfKuN15Vl5MgXW92AE8ovaJD0w=
@@ -1803,8 +1803,6 @@ github.com/grafana/grafana-google-sdk-go v0.1.0 h1:LKGY8z2DSxKjYfr2flZsWgTRTZ6HG
 github.com/grafana/grafana-google-sdk-go v0.1.0/go.mod h1:Vo2TKWfDVmNTELBUM+3lkrZvFtBws0qSZdXhQxRdJrE=
 github.com/grafana/grafana-plugin-sdk-go v0.94.0/go.mod h1:3VXz4nCv6wH5SfgB3mlW39s+c+LetqSCjFj7xxPC5+M=
 github.com/grafana/grafana-plugin-sdk-go v0.114.0/go.mod h1:D7x3ah+1d4phNXpbnOaxa/osSaZlwh9/ZUnGGzegRbk=
-github.com/grafana/grafana-plugin-sdk-go v0.183.0 h1:nT8LUQHnGLiyToRjTjFVKhnWHXVfrV1EdIpXZADBrp0=
-github.com/grafana/grafana-plugin-sdk-go v0.183.0/go.mod h1:fPX9spPWEzyUg0BLTQbdXCCq7PVSJZGNVKfNpiTQUts=
 github.com/grafana/grafana-plugin-sdk-go v0.184.0 h1:1bIQZnOLqktYwaFybkghE9TmWv+gLKB4plB2wL4DCdQ=
 github.com/grafana/grafana-plugin-sdk-go v0.184.0/go.mod h1:fPX9spPWEzyUg0BLTQbdXCCq7PVSJZGNVKfNpiTQUts=
 github.com/grafana/kindsys v0.0.0-20230508162304-452481b63482 h1:1YNoeIhii4UIIQpCPU+EXidnqf449d0C3ZntAEt4KSo=
